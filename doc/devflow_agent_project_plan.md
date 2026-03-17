@@ -126,6 +126,18 @@ Tree-sitter
 -   符号级 chunk（函数、类）
 -   文档级 chunk
 
+当前第二次迭代的实现边界：
+
+-   仅纳入文本型仓库内容
+-   统一排除二进制文件与媒体文件
+-   在切块前先生成可审查的 scan record
+
+Current Iteration 2 implementation boundary:
+
+-   Ingest text-based repository content only
+-   Exclude binary files and media assets from the ingestion scope
+-   Produce reviewable scan records before chunk generation
+
 ------------------------------------------------------------------------
 
 ### B. Retrieval

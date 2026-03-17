@@ -1,15 +1,16 @@
-PYTHON ?= python3
+PYTHON ?= .venv/bin/python
 
 .PHONY: help run test lint
 
 help:
 	@printf "Targets: help run test lint\n"
+	@printf "Using PYTHON=%s\n" "$(PYTHON)"
 
 run:
 	$(PYTHON) -m app.main
 
 test:
-	pytest
+	$(PYTHON) -m pytest
 
 lint:
-	python -m compileall app
+	$(PYTHON) -m compileall app tests

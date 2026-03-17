@@ -43,10 +43,50 @@ implementation planning, and patch draft generation for software engineering wor
 - `docker-compose.yml`：本地服务组合基线文件
 - `Makefile`：常用项目命令入口
 
+## Development Environment / 开发环境
+
+Create and activate the local virtual environment before running development commands:
+
+在运行开发命令前，请先创建并激活本地虚拟环境：
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+python -m pip install -e ".[dev]"
+```
+
+- `make run` uses the project virtual environment Python.
+- `make test` runs the repository test suite through the virtual environment.
+- `make lint` performs a lightweight compile check for `app/` and `tests/`.
+
+- `make run` 会使用项目虚拟环境中的 Python。
+- `make test` 会通过虚拟环境运行仓库测试。
+- `make lint` 会对 `app/` 与 `tests/` 做轻量编译检查。
+
 ## Related Documents / 关联文档
 
 - `doc/devflow_agent_project_plan.md`: master project vision and technical context
 - `doc/devflow_agent_iteration_plan.md`: seven-iteration roadmap
+- `doc/git_commit_message_conventions.md`: git commit message format conventions
 
 - `doc/devflow_agent_project_plan.md`：总体项目愿景与技术上下文
 - `doc/devflow_agent_iteration_plan.md`：7 次迭代路线图
+- `doc/git_commit_message_conventions.md`：git 提交信息格式约定
+
+## Iteration 2 Status / 第二次迭代状态
+
+The repository now includes a lightweight Iteration 2 ingestion flow that scans text-based
+repository content, excludes binary and media files, and prepares distinct document and
+code chunk previews.
+
+仓库当前已经具备轻量级的第二次迭代摄取流程，可以扫描文本型仓库内容、排除二进制与媒体文件，
+并生成彼此区分的文档切块和代码切块预览。
+
+- Run `python3 -m app.main` to preview accepted scan records, excluded path counts, and
+  chunk counts.
+- Repository scanning logic lives under `app/repo/`.
+- Chunk preparation logic lives under `app/codeintel/`.
+
+- 运行 `python3 -m app.main` 可以预览纳入范围的扫描记录、排除路径数量与切块数量。
+- 仓库扫描逻辑位于 `app/repo/`。
+- 切块逻辑位于 `app/codeintel/`。
