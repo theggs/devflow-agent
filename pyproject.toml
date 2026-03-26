@@ -4,7 +4,10 @@ version = "0.1.0"
 description = "AI-assisted repository understanding and planning agent"
 readme = "README.md"
 requires-python = ">=3.11"
-dependencies = []
+dependencies = [
+    "qdrant-client>=1.9,<2",
+    "openai>=1.30,<2",
+]
 
 [project.optional-dependencies]
 dev = [
