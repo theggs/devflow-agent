@@ -73,19 +73,57 @@ python -m pip install -e ".[dev]"
 - `doc/devflow_agent_iteration_plan.md`：7 次迭代路线图
 - `doc/git_commit_message_conventions.md`：git 提交信息格式约定
 
-## Iteration 2 Status / 第二次迭代状态
+## Iteration 4 Status / 第四次迭代状态
 
-The repository now includes a lightweight Iteration 2 ingestion flow that scans text-based
-repository content, excludes binary and media files, and prepares distinct document and
-code chunk previews.
+The repository now includes Iteration 4 retrieval capabilities: semantic document search,
+code search enriched with symbol metadata, exact/partial symbol lookup, and metadata-aware
+filtering and ranking. All retrieval logic lives under `app/rag/`, backed by a local Qdrant
+vector database instance.
 
-仓库当前已经具备轻量级的第二次迭代摄取流程，可以扫描文本型仓库内容、排除二进制与媒体文件，
-并生成彼此区分的文档切块和代码切块预览。
+仓库当前已具备迭代 4 的检索能力：语义文档检索、富含符号元数据的代码检索、精确/部分符号查找，
+以及基于元数据的过滤与排序。所有检索逻辑位于 `app/rag/` 下，由本地 Qdrant 向量数据库支撑。
 
-- Run `python3 -m app.main` to preview accepted scan records, excluded path counts, and
-  chunk counts.
-- Repository scanning logic lives under `app/repo/`.
-- Chunk preparation logic lives under `app/codeintel/`.
+### Prerequisites / 前置条件
+
+1. Start a local Qdrant instance (default port 6333):
+   ```bash
+   docker run -p 6333:6333 qdrant/qdrant
+   ```
+2. Set an OpenAI-compatible API key:
+   ```bash
+   export OPENAI_API_KEY=your-key-here
+   ```
+3. Install dependencies:
+   ```bash
+   python3 -m venv .venv && source .venv/bin/activate
+   pip install -e ".[dev]"
+   ```
+
+1. 启动本地 Qdrant 实例（默认端口 6333）：
+   ```bash
+   docker run -p 6333:6333 qdrant/qdrant
+   ```
+2. 设置 OpenAI 兼容的 API 密钥：
+   ```bash
+   export OPENAI_API_KEY=your-key-here
+   ```
+
+### CLI Commands / 命令行接口
+
+| Command | Description |
+|---------|-------------|
+| `python -m app.main --index .` | Index the repository into Qdrant |
+| `python -m app.main --search-docs "QUERY"` | Search document chunks by meaning |
+| `python -m app.main --search-code "QUERY"` | Search code chunks by intent |
+| `python -m app.main --lookup-symbol "NAME"` | Look up symbol by name |
+| `--filter-path "app/repo/*"` | Filter results by file path prefix |
+| `--filter-symbol-kind "function"` | Filter results by symbol kind |
+| `--max-results N` | Limit result count (default 10) |
+
+### Previous Iterations / 前序迭代
+
+- **Iteration 2**: Repository scanning and chunking (`app/repo/`, `app/codeintel/`)
+- **Iteration 3**: Code intelligence extraction — symbol inventory and structural relationships
 
 - 运行 `python3 -m app.main` 可以预览纳入范围的扫描记录、排除路径数量与切块数量。
 - 仓库扫描逻辑位于 `app/repo/`。
